@@ -1,9 +1,4 @@
 // addition function
-function addition(num1, num2) {
-    return num1 + num2;
-}
-
-//addition arrow function
 const addition = (num1, num2) => num1 + num2;
 
 //subtration function
@@ -29,4 +24,25 @@ function operate (num1, num2, operator) {
     if (operator === "/") {
         return division(num1, num2);
     }
+}
+
+//function receives value from button and updates display accordingly
+const buttons = document.querySelectorAll(".digit, .decimal");
+const display = document.querySelector(".display");
+
+Array.from(buttons).forEach(button => button.addEventListener("click", updateDisplay));
+
+function updateDisplay(event) {
+    const displayCurrent = document.querySelector(".display").textContent;
+    const button = event.target;
+    display.textContent = displayCurrent + button.value;
+}
+
+//function attached to "clear" button and reverts display to en empty string
+function clearDisplay() {
+    display.textContent = "";
+}
+
+//this function will get the input and operator from user and call the operate function
+function performOperation() {
 }
