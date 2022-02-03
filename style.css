@@ -1,0 +1,35 @@
+.calculator {
+    background-color: azure;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    font-size: 20px;
+    border: 2px solid gray;
+}
+
+.container {
+    
+    display: grid;
+    grid-template-columns: repeat(4, 90px);
+    grid-template-rows: repeat(6, 80px);
+    background-color: #2196F3;
+    padding: 10px;
+}
+
+.display {
+    font-size: 40px;
+    padding-right: 5px;
+    border: 2px solid gray;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    grid-column: 1 / 5;
+    background-color: white;
+}
+
+.zero {
+    grid-column: 1 / 3;
+}
