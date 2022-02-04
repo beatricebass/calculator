@@ -22,13 +22,13 @@ button {
 .container {
     display: grid;
     grid-template-columns: repeat(4, 90px);
-    grid-template-rows: repeat(6, 80px);
+    grid-template-rows: 50px repeat(6, 80px);
     background-color: #8B2635;
     padding: 55px;
     border-radius: 8%;
 }
 
-.display {
+.display, .inputField {
     font-size: 40px;
     padding-right: 5px;
     border: 2px solid gray;
@@ -39,7 +39,12 @@ button {
     grid-column: 1 / 5;
 }
 
-.zero {
+.display {
+    font-size: 15px;
+    border-bottom: none;
+}
+
+.zero, .clear {
     grid-column: 1 / 3;
 }
 
