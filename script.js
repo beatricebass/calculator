@@ -1,3 +1,7 @@
+let num1 = "";
+let num2 = "";
+let operator = "";
+
 const numbers = document.querySelectorAll(".digit");
 const display = document.querySelector(".display");
 const inputField = document.querySelector(".inputField");
@@ -6,41 +10,48 @@ const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
 const sign = document.querySelector(".sign");
 
-numbers.forEach(number => number.addEventListener("click", getNumber));
+numbers.forEach(number => number.addEventListener("click", updateInput));
 operators.forEach(operator => operator.addEventListener("click", getOperator));
 clear.addEventListener("click", clearFields);
 equals.addEventListener("click", operate);
 
 //retreives value from buttons pressed and puts it into input field
-function getNumber(event) {
-    const number = event.target.value;
-    updateInput(number);
-    return number;
-}
-
-//function gets what is already in the input field and adds on input
-function updateInput(input) {
+function updateInput(event) {
+    let inputValue = event.target.value;
     const currentInput = document.querySelector(".inputField").textContent;
-    inputField.textContent = currentInput + input;
+    inputField.textContent = currentInput + inputValue;
 }
 
 function updateDisplay() {
     const currentInput = document.querySelector(".inputField").textContent;
-    if (num1 === "") {
-        num1 = currentInput;
-    }
-    else {
-        num2 = currentInput;
-    }
-    display.textContent = currentInput + operator;
-
+    display.textContent = currentInput;
 }
 
 function getOperator (event) {
+    const currentInput = document.querySelector(".inputField").textContent;
     operator = event.target.value;
     updateDisplay();
+    setParameters();
     clearInput();
-    return operator;
+}
+
+function setParameters() {
+    const currentInput = document.querySelector(".inputField").textContent;
+    if (num1 === "") {
+        num1 = currentInput;
+    }
+    if (num1 != null) {
+        num2 = currentInput;
+    }
+    if (num1 != null && num2 != null) {
+        let result = operate(num1, num2, operator);
+        console.log(result);
+        inputField.textContent = result;
+    }
+    // if (num1 != null && num2 != null) {
+    //     operate(num1, num2, operator);
+    //     clearParameters();
+    // }
 }
 
 function clearInput() {
@@ -48,34 +59,22 @@ function clearInput() {
 }
 
 
-function setParamters () {
-    const currentInput = document.querySelector(".inputField").textContent;
-    if (num1 === "") {
-        num1 = currentInput;
-    }
-    else {
-        num2 = currentInput;
-    }
-}
-
 
 //function attached to "clear" button and reverts display to en empty string
 function clearFields() {
     display.textContent = "";
     inputField.textContent = "";
+}
+
+function clearParameters() {
     num1 = "";
     num2 = "";
-    operator = "";
 }
 
 //this function will get the input and operator from user and call the operate function
 function performOperation() {
    
 }
-
-let num1 = "";
-let num2 = "";
-let operator = "";
 
 // addition function
 const addition = (num1, num2) => num1 + num2;
@@ -104,5 +103,3 @@ function operate (num1, num2, operator) {
         return division(num1, num2);
     }
 }
-
-
