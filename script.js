@@ -137,5 +137,9 @@ function operate() {
 }
 
 function updateSolution(value) {
+    value = value.toString();
+    if (value.length > 10) {
+        value = value.substring(0, 10);
+    }
     currentInput.textContent = value;
 }
