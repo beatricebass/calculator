@@ -1,10 +1,10 @@
-let num1 = null;
-let num2 = null;
-let operator1 = null;
-let operator2 = null;
-let solution = null;
+let num1 = "";
+let num2 = "";
+let operator1 = "";
+let operator2 = "";
+let solution = "";
 
-const numbers = document.querySelectorAll(".digit");
+const numbers = document.querySelectorAll(".digit, .zero");
 const currentInput = document.querySelector(".inputField");
 const operators = document.querySelectorAll(".operator");
 const equals = document.querySelector(".equals");
@@ -27,16 +27,18 @@ equals.addEventListener("click", operate);
 
 function handleNumber(number) {
     value = number.target.value;
-    if (num1 && !operator1 && !num2) {
-        num1 = num1.concat(value);
-    }
-    else if (!num1 && !operator1 && !num2) {
+    if (!num1 && !operator1 && !num2) {
         num1 = value;
+    }
+    else if (num1 && !operator1 && !num2) {
+        num1 = num1.toString();
+        num1 = num1.concat(value);
     }
     else if (num1 && operator1 && !num2) {
         num2 = value;
     }
     else if (num1 && operator1 && num2) {
+        num2 = num2.toString();
         num2 = num2.concat(value);
     }
 }
