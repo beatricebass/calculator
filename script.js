@@ -70,7 +70,7 @@ function updateDisplay(event) {
     }
     if ((currentInput.textContent == "") && (inputValue === "." )) {
         inputValue = "0.";
-    }
+    }   
     currentInput.textContent = currentInput.textContent + inputValue.toString();
 }
 
@@ -78,7 +78,6 @@ function updateDisplay(event) {
 function clearInput() {
     currentInput.textContent = "";
 }
-
 
 //function attached to "clear" button and reverts display and parameters to empty strings
 function clearFields() {
@@ -90,6 +89,7 @@ function clearFields() {
     solution = "";
 }
 
+//runs at the end of operate to revert parameters back to normal
 function clearParameters() {
     num1 = null;
     num2 = null;
@@ -131,6 +131,7 @@ function operate() {
     num1 = solution;
     return solution;
 }
+
 //function sends the solution to the display
 function updateSolution(value) {
     value = value.toString();
