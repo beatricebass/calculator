@@ -1,24 +1,23 @@
-let num1 = "";
-let num2 = "";
-let operator1 = "";
-let operator2 = "";
+let num1 = null;
+let num2 = null;
+let operator1 = null;
+let operator2 = null;
+let solution = null;
 
 const numbers = document.querySelectorAll(".digit");
-const previousInput = document.querySelector(".display");
 const currentInput = document.querySelector(".inputField");
 const operators = document.querySelectorAll(".operator");
 const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
 const sign = document.querySelector(".sign");
 
-
-numbers.forEach(number => number.addEventListener("click", (event) => {
-    handleNumber(event);
-    updateDisplay(event);
+numbers.forEach(number => number.addEventListener("click", (e) => {
+    handleNumber(e);
+    updateDisplay(e);
 }));
 
 operators.forEach(operator => operator.addEventListener("click",(event) => {
-    handleOperator(event)
+    handleOperator(event);
     updateDisplay(event);
 }));
 
@@ -28,51 +27,53 @@ equals.addEventListener("click", operate);
 
 function handleNumber(number) {
     value = number.target.value;
-    value.toString();
-    console.log(value);
     if (num1 && !operator1 && !num2) {
         num1 = num1.concat(value);
-        console.log(num1);
     }
     else if (!num1 && !operator1 && !num2) {
         num1 = value;
-        console.log(num1);
     }
     else if (num1 && operator1 && !num2) {
         num2 = value;
     }
     else if (num1 && operator1 && num2) {
         num2 = num2.concat(value);
-    } 
+    }
 }
 
 function handleOperator (operator) {
     operator = operator.target.value
-    operator.toString();
+    operator.toString()
     if (!operator1) {
         operator1 = operator;
     }
     else if (operator1 !== null) {
+        operate();
         operator2 = operator;
+        operator1 = operator2;
+        operator2 = null;
+        num2 = null;
+        num1 = solution;
     }
 }
-
+function decimalCheck (value) {
+    if ((currentInput.textContent.includes(".") && value == ".")) {
+        return null;
+    }
+    else {
+        return value;
+    }
+}
 //retreives value from buttons pressed and puts it into input field
 function updateDisplay(event) {
     let inputValue = event.target.value.toString();
+    inputValue = decimalCheck(inputValue);
     currentInput.textContent = currentInput.textContent + inputValue.toString();
+
 }
 
-// function updateDisplay() {
-//     const currentInput = document.querySelector(".inputField").textContent;
-//     const currentDisplay = document.querySelector(".display").textContent;
-//     display.textContent = currentDisplay + currentInput;
-// }
-
-
-
 function clearInput() {
-    inputField.textContent = "";
+    currentInput.textContent = "";
 }
 
 
@@ -83,10 +84,14 @@ function clearFields() {
     num2 = "";
     operator1 = "";
     operator2 = "";
+    solution = "";
 }
 
 function clearParameters() {
-    return expression = [];
+    num1 = null;
+    num2 = null;
+    operator1 = null;
+    operator2 = null;
 }
 
 //this function will get the input and operator from user and call the operate function
@@ -98,7 +103,7 @@ function performOperation() {
 const addition = (num1, num2) => num1 + num2;
 
 //subtration function
-const subtration = (num1, num2) => num1 - num2;
+const subtraction = (num1, num2) => num1 - num2;
 
 // multiplication function
 const multiplication = (num1, num2) => num1 * num2
@@ -107,21 +112,28 @@ const multiplication = (num1, num2) => num1 * num2
 const division = (num1, num2) => num2 === 0 ? "nice try" : num1/num2 
 
 // operate function takes operator and two digits and calls the appropriate operator functions
-function operate (expression) {
-    
-    if (expression.includes("+")); {
-        solution = addition(expression[0], expression[2]);
+function operate() {
+    num1 = Number(num1);
+    num2 = Number(num2);
+    if (operator1 == "+") {
+        solution = addition(num1, num2);
     }
-    if (expression.includes("-")) {
-        solution = subtration(expression[0], expression[2]);
+    else if (operator1 == "-") {
+        solution = subtraction(num1, num2);
     }
-    if (expression.includes("x")) {
-        solution = multiplication(expression[0], expression[2]);
+    else if (operator1 == "x") {
+        solution = multiplication(num1, num2);
     }
-    if (expression.includes("/")) {
-        solution = division(expression[0], expression[2]);
+    else if (operator1 == "/") {
+        solution = division(num1, num2);
     }
-    console.log(solution);
     clearInput();
-    updateDisplay(solution)
+    clearParameters();
+    updateSolution(solution);
+    num1 = solution;
+    return solution;
+}
+
+function updateSolution(value) {
+    currentInput.textContent = value;
 }
