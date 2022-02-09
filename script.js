@@ -4,12 +4,11 @@ let operator1 = "";
 let operator2 = "";
 let solution = "";
 
-const numbers = document.querySelectorAll(".digit, .zero");
+const numbers = document.querySelectorAll(".digit, .zero, .decimal");
 const currentInput = document.querySelector(".inputField");
 const operators = document.querySelectorAll(".operator");
 const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
-const sign = document.querySelector(".sign");
 
 numbers.forEach(number => number.addEventListener("click", (e) => {
     handleNumber(e);
@@ -24,9 +23,12 @@ operators.forEach(operator => operator.addEventListener("click",(event) => {
 clear.addEventListener("click", clearFields);
 equals.addEventListener("click", operate);
 
-
+//gets the value from the number button and assigns it to the correct parameter
 function handleNumber(number) {
     value = number.target.value;
+    if ((currentInput.textContent.includes(".") && value == ".")) {
+        return;
+    }
     if (!num1 && !operator1 && !num2) {
         num1 = value;
     }
@@ -43,6 +45,7 @@ function handleNumber(number) {
     }
 }
 
+//gets operator value from button and assigns to the correct parameter
 function handleOperator (operator) {
     operator = operator.target.value
     operator.toString()
@@ -58,28 +61,26 @@ function handleOperator (operator) {
         num1 = solution;
     }
 }
-function decimalCheck (value) {
-    if ((currentInput.textContent.includes(".") && value == ".")) {
-        return null;
-    }
-    else {
-        return value;
-    }
-}
+
 //retreives value from buttons pressed and puts it into input field
 function updateDisplay(event) {
     let inputValue = event.target.value.toString();
-    inputValue = decimalCheck(inputValue);
+    if ((currentInput.textContent.includes(".") && inputValue == ".")) {
+        return;
+    }
+    if ((currentInput.textContent == "") && (inputValue === "." )) {
+        inputValue = "0.";
+    }
     currentInput.textContent = currentInput.textContent + inputValue.toString();
-
 }
 
+//removes what is written in display in order to display the solution
 function clearInput() {
     currentInput.textContent = "";
 }
 
 
-//function attached to "clear" button and reverts display to en empty string
+//function attached to "clear" button and reverts display and parameters to empty strings
 function clearFields() {
     currentInput.textContent = "";
     num1 = "";
@@ -94,11 +95,6 @@ function clearParameters() {
     num2 = null;
     operator1 = null;
     operator2 = null;
-}
-
-//this function will get the input and operator from user and call the operate function
-function performOperation() {
-   
 }
 
 // addition function
@@ -135,7 +131,7 @@ function operate() {
     num1 = solution;
     return solution;
 }
-
+//function sends the solution to the display
 function updateSolution(value) {
     value = value.toString();
     if (value.length > 10) {
