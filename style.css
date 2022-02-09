@@ -40,8 +40,12 @@ button {
 }
 
 
-.zero, .clear {
+.zero {
     grid-column: 1 / 3;
+}
+
+.clear {
+    grid-column: 1 / 4;
 }
 
 .digit, .decimal, .zero {
