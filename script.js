@@ -3,12 +3,29 @@ let num2 = "";
 let operator1 = "";
 let operator2 = "";
 let solution = "";
+let isEqualsClicked = true;
 
 const numbers = document.querySelectorAll(".digit, .zero, .decimal");
 const currentInput = document.querySelector(".inputField");
 const operators = document.querySelectorAll(".operator");
 const equals = document.querySelector(".equals");
 const clear = document.querySelector(".clear");
+
+const decimal = document.querySelector(".decimal");
+
+function disableDecimal () {
+    decimal.disabled = false;
+    num1 = num1.toString();
+    if (num2) {
+        num2 = num2.toString();
+    }
+    if ((value == ".") && (num1.includes(".") && (!num2))) { 
+        decimal.disabled = true;
+    }
+    else if ((value == ".") && (num1.includes(".") && num2.includes("."))) {
+        decimal.disabled = true;
+    }
+}
 
 numbers.forEach(number => number.addEventListener("click", (e) => {
     handleNumber(e);
@@ -26,9 +43,18 @@ equals.addEventListener("click", operate);
 //gets the value from the number button and assigns it to the correct parameter
 function handleNumber(number) {
     value = number.target.value;
-    if ((currentInput.textContent.includes(".") && value == ".")) {
-        return;
+    console.log(value);
+    if (isEqualsClicked == false) {
+        clearInput();
+        clearParameters();
     }
+    
+    // if ((value == ".") && (num1.includes(".") && (!num2))) { 
+    //     return;
+    // }
+    // else if ((value == ".") && (num1.includes(".") && num2.includes("."))) {
+    //     return
+    // }
     if (!num1 && !operator1 && !num2) {
         num1 = value;
     }
@@ -36,19 +62,23 @@ function handleNumber(number) {
         num1 = num1.toString();
         num1 = num1.concat(value);
     }
-    else if (num1 && operator1 && !num2) {
+    else if ((num1 || num1 == 0) && operator1 && !num2) {
         num2 = value;
     }
     else if (num1 && operator1 && num2) {
         num2 = num2.toString();
         num2 = num2.concat(value);
     }
+    disableDecimal();
 }
 
 //gets operator value from button and assigns to the correct parameter
 function handleOperator (operator) {
     operator = operator.target.value
     operator.toString()
+    if (isEqualsClicked == false) {
+        isEqualsClicked = true;
+    }
     if (!operator1) {
         operator1 = operator;
     }
@@ -59,19 +89,25 @@ function handleOperator (operator) {
         operator2 = null;
         num2 = null;
         num1 = solution;
+        isEqualsClicked = true;
     }
 }
 
 //retreives value from buttons pressed and puts it into input field
 function updateDisplay(event) {
-    let inputValue = event.target.value.toString();
-    if ((currentInput.textContent.includes(".") && inputValue == ".")) {
-        return;
+    if (isEqualsClicked == false) {
+        clearInput();
+        clearParameters();
     }
+    let inputValue = event.target.value.toString();
+    // if ((currentInput.textContent.includes(".") && inputValue == ".")) {
+    //     return;
+    // }
     if ((currentInput.textContent == "") && (inputValue === "." )) {
         inputValue = "0.";
     }   
     currentInput.textContent = currentInput.textContent + inputValue.toString();
+    disableDecimal();
 }
 
 //removes what is written in display in order to display the solution
@@ -87,6 +123,7 @@ function clearFields() {
     operator1 = "";
     operator2 = "";
     solution = "";
+    isEqualsClicked = true;
 }
 
 //runs at the end of operate to revert parameters back to normal
@@ -95,6 +132,7 @@ function clearParameters() {
     num2 = null;
     operator1 = null;
     operator2 = null;
+    isEqualsClicked = true;
 }
 
 // addition function
@@ -134,6 +172,7 @@ function operate() {
 
 //function sends the solution to the display
 function updateSolution(value) {
+    isEqualsClicked = false;
     value = value.toString();
     if (value.length > 10) {
         value = value.substring(0, 10);
